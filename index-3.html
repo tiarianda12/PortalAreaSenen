@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portal Area Senen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pine: #0f3b33;
+    --gold: #c9a227;
+    --paper: #f2f4f1;
+    --card: #ffffff;
+    --ink: #1c2725;
+    --muted: #5d6b67;
+    --line: #d5ddd8;
+    --ok: #1f7a4d;
+    --radius: 18px;
+    --font-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+    --font-body: 'Figtree', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .wrap {
+    width: 100%;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ---------- Hero dengan ilustrasi Senen ---------- */
+  .hero {
+    --scene: clamp(170px, 18vw, 250px);
+    position: relative;
+    overflow: hidden;
+    background: var(--pine);
+    color: #fff;
+    padding: 20px 0 calc(var(--scene) - 10px);
+    border-bottom: 5px solid var(--gold);
+  }
+
+  .hero-inner { position: relative; z-index: 2; }
+
+  /* Hiasan gigi balang (ornamen khas rumah Betawi) di bawah hero */
+  .hero-teeth {
+    height: 12px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='12'%3E%3Cpath d='M0 0h28L14 12z' fill='%23c9a227'/%3E%3C/svg%3E") repeat-x;
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 18px;
+    white-space: nowrap;
+  }
+
+  .brand-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--gold);
+    color: #0a2a24;
+    display: grid;
+    place-items: center;
+  }
+
+  .today {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.75);
+    text-align: right;
+  }
+
+  h1 {
+    margin: 0 0 12px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(38px, 6.4vw, 64px);
+    line-height: 1.03;
+    letter-spacing: -0.02em;
+  }
+
+  .lead {
+    margin: 0;
+    max-width: 44ch;
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .scene {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: var(--scene);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .skyline {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .ondel {
+    position: absolute;
+    right: 6%;
+    bottom: 2px;
+    height: calc(var(--scene) * 1.08);
+    width: auto;
+    display: block;
+  }
+
+  /* Kereta lewat satu kali saat halaman dibuka */
+  .train { animation: pass 16s linear 1s 1 both; }
+  @keyframes pass {
+    from { transform: translateX(-340px); }
+    to   { transform: translateX(1260px); }
+  }
+
+  /* ---------- Menu ---------- */
+  main {
+    flex: 1;
+    margin-top: 36px;
+    padding-bottom: 48px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .grid > li { display: flex; }
+
+  .tile {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a.tile {
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  a.tile:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 14px 28px rgba(15, 59, 51, 0.14);
+  }
+
+  a.tile:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  .tile-top {
+    position: relative;
+    height: 116px;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    background: var(--accent);
+    color: var(--on);
+    overflow: hidden;
+  }
+
+  .icon {
+    position: relative;
+    z-index: 1;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.2);
+    display: grid;
+    place-items: center;
+  }
+
+  .ghost {
+    position: absolute;
+    right: -18px;
+    bottom: -44px;
+    width: 176px;
+    height: 176px;
+    opacity: 0.14;
+  }
+
+  .teeth {
+    height: 10px;
+    margin-top: -1px;
+    background: var(--teeth) repeat-x;
+  }
+
+  .tile-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 18px 24px 24px;
+  }
+
+  .title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    margin-bottom: 6px;
+  }
+
+  .tile h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 4px 11px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    background: #e3f2e9;
+    color: var(--ok);
+  }
+
+  .status::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  .tile p {
+    margin: 0 0 18px;
+    max-width: 38ch;
+    color: var(--muted);
+  }
+
+  .open {
+    margin-top: auto;
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--on);
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .open svg { transition: transform 0.18s ease; }
+  a.tile:hover .open svg { transform: translateX(4px); }
+
+  /* Menu yang belum siap */
+  .tile.is-soon { background: #f8f9f7; }
+  .is-soon .tile-top,
+  .is-soon .teeth { filter: saturate(0.4) opacity(0.85); }
+  .is-soon h2 { color: var(--muted); }
+  .is-soon .status { background: #e9ecea; color: var(--muted); }
+
+  footer {
+    padding: 0 0 32px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 720px) {
+    .wrap { padding: 0 18px; }
+    .topbar { margin-bottom: 32px; }
+    .today { font-size: 12.5px; }
+    .grid { grid-template-columns: 1fr; gap: 16px; }
+    .tile-top { height: 100px; }
+  }
+
+  @media (max-width: 560px) {
+    .ondel { right: 2%; height: calc(var(--scene) * 0.85); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .train { display: none; }
+    a.tile, .open svg { transition: none; }
+    a.tile:hover { transform: none; }
+    a.tile:hover .open svg { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap hero-inner">
+    <div class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="1.5"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="1.5"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="1.5"/></svg>
+        </span>
+        Portal Area Senen
+      </div>
+      <div class="today" id="today"></div>
+    </div>
+
+    <h1 id="greeting">Selamat datang, Senen.</h1>
+    <p class="lead">Satu pintu untuk semua layanan di area Senen. Pilih menu di bawah untuk membuka halamannya.</p>
+  </div>
+
+  <!-- Ilustrasi: pasar, stasiun, gedung tinggi, kereta, dan ondel-ondel Betawi -->
+  <div class="scene" aria-hidden="true">
+    <svg class="skyline" viewBox="0 0 1200 260" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="win" width="14" height="18" patternUnits="userSpaceOnUse">
+          <rect x="3" y="4" width="7" height="9" fill="#e6c34a" opacity="0.55"/>
+        </pattern>
+        <g id="car">
+          <rect x="0" y="234" width="100" height="19" rx="4" fill="#e3e9e5"/>
+          <rect x="0" y="246" width="100" height="3" fill="#c8362b"/>
+          <rect x="8" y="238" width="12" height="7" fill="#14493f"/>
+          <rect x="26" y="238" width="12" height="7" fill="#14493f"/>
+          <rect x="44" y="238" width="12" height="7" fill="#14493f"/>
+          <rect x="62" y="238" width="12" height="7" fill="#14493f"/>
+          <rect x="80" y="238" width="12" height="7" fill="#14493f"/>
+          <circle cx="14" cy="254" r="3" fill="#111"/>
+          <circle cx="86" cy="254" r="3" fill="#111"/>
+        </g>
+      </defs>
+
+      <!-- Lapisan belakang: gedung-gedung jauh -->
+      <g fill="#1a5548">
+        <rect x="0" y="150" width="70" height="110"/>
+        <rect x="70" y="120" width="50" height="140"/>
+        <rect x="120" y="160" width="60" height="100"/>
+        <rect x="300" y="175" width="40" height="85"/>
+        <rect x="640" y="150" width="40" height="110"/>
+        <rect x="770" y="105" width="55" height="155"/>
+        <rect x="825" y="140" width="70" height="120"/>
+        <rect x="930" y="90" width="45" height="170"/>
+        <rect x="975" y="130" width="70" height="130"/>
+        <rect x="1045" y="155" width="60" height="105"/>
+        <rect x="1105" y="115" width="95" height="145"/>
+      </g>
+
+      <!-- Lapisan depan: bangunan -->
+      <g fill="#082019">
+        <!-- Pasar: atap gerigi -->
+        <path d="M0 260 L0 195 L40 170 L40 195 L80 170 L80 195 L120 170 L120 195 L160 170 L160 195 L200 170 L200 195 L240 170 L240 195 L280 170 L280 260 Z"/>
+
+        <!-- Stasiun: sayap kiri dan kanan, bagian tengah, hiasan atas -->
+        <rect x="326" y="170" width="123" height="6"/>
+        <rect x="521" y="170" width="123" height="6"/>
+        <rect x="330" y="175" width="115" height="85"/>
+        <rect x="525" y="175" width="115" height="85"/>
+        <rect x="445" y="130" width="80" height="130"/>
+        <path d="M440 130 H530 L520 112 H450 Z"/>
+        <rect x="470" y="98" width="30" height="14"/>
+
+        <!-- Gedung tinggi -->
+        <rect x="665" y="205" width="125" height="55"/>
+        <rect x="690" y="70" width="75" height="190"/>
+        <rect x="700" y="58" width="55" height="12"/>
+        <rect x="726" y="36" width="3" height="22"/>
+
+        <!-- Gedung sedang di kanan -->
+        <rect x="805" y="135" width="65" height="125"/>
+        <rect x="870" y="175" width="70" height="85"/>
+        <rect x="940" y="222" width="260" height="38"/>
+      </g>
+
+      <!-- Cahaya: jendela, jam, pintu masuk stasiun -->
+      <g fill="#e6c34a">
+        <circle cx="485" cy="145" r="11"/>
+        <path d="M468 260 V212 a17 17 0 0 1 34 0 V260 Z" opacity="0.85"/>
+        <path d="M345 232 V206 a6 6 0 0 1 12 0 V232 Z" opacity="0.6"/>
+        <path d="M372 232 V206 a6 6 0 0 1 12 0 V232 Z" opacity="0.6"/>
+        <path d="M399 232 V206 a6 6 0 0 1 12 0 V232 Z" opacity="0.6"/>
+        <path d="M550 232 V206 a6 6 0 0 1 12 0 V232 Z" opacity="0.6"/>
+        <path d="M577 232 V206 a6 6 0 0 1 12 0 V232 Z" opacity="0.6"/>
+        <path d="M604 232 V206 a6 6 0 0 1 12 0 V232 Z" opacity="0.6"/>
+        <path d="M455 192 V178 a4 4 0 0 1 8 0 V192 Z" opacity="0.6"/>
+        <path d="M507 192 V178 a4 4 0 0 1 8 0 V192 Z" opacity="0.6"/>
+      </g>
+      <path d="M485 145 V138 M485 145 L490 148" stroke="#082019" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <circle cx="727.5" cy="34" r="3" fill="#e5453a"/>
+
+      <!-- Jendela gedung -->
+      <rect x="694" y="76" width="67" height="176" fill="url(#win)"/>
+      <rect x="670" y="212" width="115" height="40" fill="url(#win)"/>
+      <rect x="809" y="141" width="57" height="111" fill="url(#win)"/>
+      <rect x="874" y="181" width="62" height="71" fill="url(#win)"/>
+      <rect x="4" y="205" width="272" height="6" fill="#e6c34a" opacity="0.3"/>
+
+      <!-- Rel dan tanah -->
+      <rect x="0" y="252" width="1200" height="2" fill="#2b4a42"/>
+      <rect x="0" y="256" width="1200" height="4" fill="#051610"/>
+
+      <!-- Kereta -->
+      <g class="train">
+        <use href="#car" x="0"/>
+        <use href="#car" x="104"/>
+        <use href="#car" x="208"/>
+      </g>
+    </svg>
+
+    <!-- Ondel-ondel: laki-laki (wajah merah) dan perempuan (wajah putih) -->
+    <svg class="ondel" viewBox="0 0 292 300" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <symbol id="ondel" viewBox="0 0 140 300">
+          <!-- kembang kelape (mahkota) -->
+          <g fill="#e6c34a" stroke="#8a6a0a" stroke-width="1">
+            <ellipse cx="70" cy="28" rx="8" ry="22" transform="rotate(-66 70 58)"/>
+            <ellipse cx="70" cy="28" rx="8" ry="22" transform="rotate(-44 70 58)"/>
+            <ellipse cx="70" cy="28" rx="8" ry="22" transform="rotate(-22 70 58)"/>
+            <ellipse cx="70" cy="28" rx="8" ry="22" transform="rotate(0 70 58)"/>
+            <ellipse cx="70" cy="28" rx="8" ry="22" transform="rotate(22 70 58)"/>
+            <ellipse cx="70" cy="28" rx="8" ry="22" transform="rotate(44 70 58)"/>
+            <ellipse cx="70" cy="28" rx="8" ry="22" transform="rotate(66 70 58)"/>
+          </g>
+          <!-- badan -->
+          <path d="M36 142 Q70 156 104 142 L128 286 H12 Z" style="fill:var(--suit)"/>
+          <path d="M22 200 H118 L128 286 H12 Z" fill="#000" opacity="0.2"/>
+          <rect x="64" y="152" width="12" height="134" fill="#e6c34a"/>
+          <rect x="14" y="252" width="112" height="12" fill="#e6c34a"/>
+          <!-- gigi balang di ujung kain -->
+          <path d="M12 286 L22 298 L32 286 L42 298 L52 286 L62 298 L72 286 L82 298 L92 286 L102 298 L112 286 L122 298 L128 286 Z" fill="#e6c34a"/>
+          <!-- lengan dan tangan -->
+          <path d="M38 150 Q14 190 24 236" fill="none" stroke-width="18" stroke-linecap="round" style="stroke:var(--suit)"/>
+          <path d="M102 150 Q126 190 116 236" fill="none" stroke-width="18" stroke-linecap="round" style="stroke:var(--suit)"/>
+          <circle cx="24" cy="242" r="9" style="fill:var(--face)"/>
+          <circle cx="116" cy="242" r="9" style="fill:var(--face)"/>
+          <!-- kepala -->
+          <circle cx="70" cy="96" r="48" fill="#141414"/>
+          <circle cx="28" cy="106" r="8" style="fill:var(--face)"/>
+          <circle cx="112" cy="106" r="8" style="fill:var(--face)"/>
+          <circle cx="70" cy="102" r="42" style="fill:var(--face)"/>
+          <path d="M30 62 Q70 46 110 62 L110 70 Q70 54 30 70 Z" fill="#b8891a" stroke="#8a6a0a" stroke-width="1"/>
+          <ellipse cx="54" cy="96" rx="9" ry="10" fill="#fff"/>
+          <ellipse cx="86" cy="96" rx="9" ry="10" fill="#fff"/>
+          <circle cx="55" cy="98" r="5" fill="#111"/>
+          <circle cx="85" cy="98" r="5" fill="#111"/>
+          <path d="M40 80 Q54 70 66 80 M74 80 Q86 70 100 80" fill="none" stroke="#111" stroke-width="5" stroke-linecap="round"/>
+          <ellipse cx="70" cy="110" rx="6" ry="7" fill="#000" opacity="0.15"/>
+          <path d="M56 128 Q70 144 84 128 Z" fill="#5a0d0d"/>
+          <path d="M60 129.5 H80" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+          <path d="M46 122 Q70 110 94 122 Q70 128 46 122 Z" fill="#111" style="opacity:var(--stache,1)"/>
+        </symbol>
+      </defs>
+      <use href="#ondel" x="0" y="0" width="140" height="300" style="--face:#c8362b;--suit:#1f7a4d"/>
+      <use href="#ondel" x="152" y="0" width="140" height="300" style="--face:#f6efe0;--suit:#c8362b;--stache:0"/>
+    </svg>
+  </div>
+</header>
+<div class="hero-teeth" aria-hidden="true"></div>
+
+<main>
+  <div class="wrap">
+    <ul class="grid" id="menu"></ul>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">Portal Area Senen, Jakarta Pusat. Menu bertanda "Segera hadir" akan aktif setelah halamannya selesai dibuat.</div>
+</footer>
+
+<script>
+  /*
+    ============================================================
+    PENGATURAN MENU
+    Untuk mengaktifkan halaman baru, isi "url" dengan alamat
+    halamannya. Selama "url" kosong (''), menu tampil sebagai
+    "Segera hadir" dan belum bisa diklik.
+    accent = warna utama kartu, on = warna teks/ikon di atas accent.
+    ============================================================
+  */
+  var MENUS = [
+    {
+      title: 'Gadai',
+      desc: 'Layanan dan pemantauan gadai.',
+      url: '', // contoh: 'https://tiarianda12.github.io/NamaRepoGadai/'
+      accent: '#1f7a4d', on: '#ffffff',
+      icon: '<rect x="3" y="4" width="18" height="15" rx="2.5"/><circle cx="12" cy="11.5" r="3.2"/><path d="M12 8.3v1.4M12 13.3v1.4M8.8 11.5h1.4M13.8 11.5h1.4"/><path d="M7 19v2M17 19v2"/>'
+    },
+    {
+      title: 'Non Gadai',
+      desc: 'Layanan dan pemantauan non gadai.',
+      url: 'https://tiarianda12.github.io/PortalNonGadaiSenen/',
+      accent: '#c8362b', on: '#ffffff',
+      icon: '<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9.5 8h5M9.5 12h5"/>'
+    },
+    {
+      title: 'Emas',
+      desc: 'Layanan dan pemantauan produk emas.',
+      url: '',
+      accent: '#d9a91f', on: '#2a2000',
+      icon: '<path d="M2.5 19l2.2-5.5h6.6L13.5 19z"/><path d="M10.5 19l2.2-5.5h6.6L21.5 19z"/><path d="M6.5 13.5L8.7 8h6.6l2.2 5.5"/>'
+    },
+    {
+      title: 'Sales Channel',
+      desc: 'Pemantauan kanal penjualan.',
+      url: '',
+      accent: '#22627a', on: '#ffffff',
+      icon: '<circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="5.5" r="2.6"/><circle cx="18" cy="18.5" r="2.6"/><path d="M8.3 10.8l7.4-4M8.3 13.2l7.4 4"/>'
+    }
+  ];
+
+  var chevron = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+  function iconSvg(paths, size, cls) {
+    return '<svg ' + (cls ? 'class="' + cls + '" ' : '') + 'width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + paths + '</svg>';
+  }
+
+  // Deretan segitiga (gigi balang) dengan warna kartu
+  function teeth(hex) {
+    var svg = "<svg xmlns='http://www.w3.org/2000/svg' width='20' height='10' viewBox='0 0 20 10'><path d='M0 0h20L10 10z' fill='" + hex + "'/></svg>";
+    return 'url("data:image/svg+xml,' + encodeURIComponent(svg) + '")';
+  }
+
+  function render() {
+    var list = document.getElementById('menu');
+    var html = '';
+
+    MENUS.forEach(function (m) {
+      var active = !!m.url;
+      var inner =
+        '<div class="tile-top">' +
+          '<span class="icon">' + iconSvg(m.icon, 34) + '</span>' +
+          iconSvg(m.icon, 176, 'ghost') +
+        '</div>' +
+        '<div class="teeth"></div>' +
+        '<div class="tile-body">' +
+          '<div class="title-row"><h2>' + m.title + '</h2>' +
+          '<span class="status">' + (active ? 'Aktif' : 'Segera hadir') + '</span></div>' +
+          '<p>' + m.desc + '</p>' +
+          (active ? '<span class="open">Buka halaman ' + m.title + chevron + '</span>' : '') +
+        '</div>';
+
+      html += '<li>' + (active
+        ? '<a class="tile" href="' + m.url + '">' + inner + '</a>'
+        : '<div class="tile is-soon" aria-disabled="true">' + inner + '</div>') + '</li>';
+    });
+
+    list.innerHTML = html;
+
+    MENUS.forEach(function (m, i) {
+      var li = list.children[i];
+      li.style.setProperty('--accent', m.accent);
+      li.style.setProperty('--on', m.on);
+      li.style.setProperty('--teeth', teeth(m.accent));
+    });
+  }
+
+  function setGreeting() {
+    var now = new Date();
+    var h = now.getHours();
+    var sapaan = h < 11 ? 'Selamat pagi' : h < 15 ? 'Selamat siang' : h < 18 ? 'Selamat sore' : 'Selamat malam';
+    document.getElementById('greeting').textContent = sapaan + ', Senen.';
+    document.getElementById('today').textContent = now.toLocaleDateString('id-ID', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    });
+  }
+
+  render();
+  setGreeting();
+</script>
+</body>
+</html>
